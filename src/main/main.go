@@ -32,7 +32,7 @@ func main() {
 			"author":  author,
 			"types":   types,
 			"message": "StatusOK",
-			"test":    "test2",
+			"test":    "test3",
 		})
 	})
 

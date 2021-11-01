@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 )
+
 func main() {
 	//1. 创建路由
 	r := gin.Default()
@@ -13,31 +14,31 @@ func main() {
 	r.GET("/movie", func(c *gin.Context) {
 		// 指定默认值
 		// 走/user才会出默认值
-		name := c.DefaultQuery("name","sam")
+		name := c.DefaultQuery("name", "sam")
 		//author := c.Param("author")
 		//截取/
 		//author = strings.Trim(author, "/")
 		c.JSON(200, gin.H{
-			"name": name,
+			"name":    name,
 			"message": "StatusOK",
 		})
 	})
 	r.POST("/form", func(c *gin.Context) {
-		types := c.DefaultPostForm("type","post")
+		types := c.DefaultPostForm("type", "post")
 		movie := c.PostForm("movie")
 		author := c.PostForm("author")
 		c.JSON(200, gin.H{
-			"movie": movie,
-			"author": author,
-			"types": types,
+			"movie":   movie,
+			"author":  author,
+			"types":   types,
 			"message": "StatusOK",
-			"test": "test",
+			"test":    "test2",
 		})
 	})
 
 	// 限制上传最大尺寸
 	r.MaxMultipartMemory = 8 << 20
-	r.POST("/upload", func(c *gin.Context){
+	r.POST("/upload", func(c *gin.Context) {
 		// gin 封装了http库中的Request
 		file, err := c.FormFile("file")
 		if err != nil {
@@ -50,13 +51,13 @@ func main() {
 		c.String(http.StatusOK, file.Filename)
 	})
 
-	r.POST("/filesize", func(c *gin.Context){
+	r.POST("/filesize", func(c *gin.Context) {
 		_, headers, err := c.Request.FormFile("file")
 		if err != nil {
 			log.Printf("Error when try to get file size: %v", err)
 		}
 		// 获取文件大小
-		if headers.Size > 1024 * 1024 * 2 {
+		if headers.Size > 1024*1024*2 {
 			fmt.Println("file size is too large")
 			return
 		}
@@ -65,19 +66,17 @@ func main() {
 			fmt.Println("只允许上传png图片")
 			return
 		}
-		c.SaveUploadedFile(headers, "./pic/" + headers.Filename)
-		c.String(http.StatusOK, headers.Filename + "yes")
+		c.SaveUploadedFile(headers, "./pic/"+headers.Filename)
+		c.String(http.StatusOK, headers.Filename+"yes")
 	})
 
 	r.PUT("/xxPut", func(c *gin.Context) {
 		c.String(http.StatusOK, "PUT succeed!")
 	})
 	r.DELETE("xxDelete", func(c *gin.Context) {
-		c.String(http.StatusOK,"delete succeed!")
+		c.String(http.StatusOK, "delete succeed!")
 	})
 	//3.监听端口
 	r.Run(":8080")
 
-
 }
-

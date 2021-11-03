@@ -67,5 +67,5 @@ func Unmarshalapijson(jsonData []byte){
 	if err != nil {
 		fmt.Printf("json unmarshal failed, err%v\n", err.Error())
 	}
-	fmt.Println(apiJson.ResultCount, apiJson.Results)
+	fmt.Print(apiJson.ResultCount, apiJson.Results)
 }

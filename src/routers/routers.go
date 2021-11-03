@@ -7,6 +7,7 @@ import (
 	"github.com/gin-gonic/gin/testdata/protoexample"
 	"log"
 	"net/http"
+	"strconv"
 )
 // 定义接收数据的结构体
 type Movie struct {
@@ -188,7 +189,12 @@ func SetupRouter() *gin.Engine {
 	})
 	r.GET("/sendurl", func(c *gin.Context) {
 		term := c.Query("term")
-		service.Sendurl(term)
+		limit := c.Query("limit")
+		limits, err := strconv.Atoi(limit)
+		if err != nil {
+			fmt.Printf("string to int limit error: %v", err.Error())
+		}
+		service.Sendurl(term, limits)
 	})
 	r.PUT("/xxPut", func(c *gin.Context) {
 		c.String(http.StatusOK, "PUT succeed!")

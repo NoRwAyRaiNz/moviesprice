@@ -184,7 +184,11 @@ func SetupRouter() *gin.Engine {
 		c.Redirect(http.StatusMovedPermanently, "https://www.baidu.com")
 	})
 	r.GET("/apijson", func(c *gin.Context) {
-		service.Unmarshalapijson()
+		//service.Unmarshalapijson()
+	})
+	r.GET("/sendurl", func(c *gin.Context) {
+		term := c.Query("term")
+		service.Sendurl(term)
 	})
 	r.PUT("/xxPut", func(c *gin.Context) {
 		c.String(http.StatusOK, "PUT succeed!")

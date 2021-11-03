@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"MoviesPrice/src/service"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/testdata/protoexample"
@@ -179,8 +180,11 @@ func SetupRouter() *gin.Engine {
 		c.ProtoBuf(200, data)
 	})
 	// 重定向
-	r.GET("toapple", func(c *gin.Context){
+	r.GET("/toapple", func(c *gin.Context){
 		c.Redirect(http.StatusMovedPermanently, "https://www.baidu.com")
+	})
+	r.GET("/apijson", func(c *gin.Context) {
+		service.Unmarshalapijson()
 	})
 	r.PUT("/xxPut", func(c *gin.Context) {
 		c.String(http.StatusOK, "PUT succeed!")
